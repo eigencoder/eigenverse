@@ -57,8 +57,8 @@ class TestPoint(unittest.TestCase):
 
     def test_serialized(self):
         ser = self.v1.serialized
-        expected = {'location': [1, 2, 3]}
-        self.assertEqual(ser, expected, "Serialization or its structure failed")
+        expected = {'coordinates': (1, 2, 3)}
+        self.assertEqual(ser, expected, "Serialization or its structure failed: {s} != {e}".format(s=ser, e=expected))
 
 
 if __name__ == '__main__':

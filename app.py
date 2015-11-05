@@ -2,17 +2,20 @@ import time
 from threading import Thread
 from flask import Flask, render_template, session
 from flask.ext.socketio import SocketIO, emit, disconnect
+from flask_debugtoolbar import DebugToolbarExtension
 
-from game import Game
+from src.game import Game
 
-from gevent import monkey  # ?
+from gevent import monkey
 monkey.patch_all()
 
 app = Flask(__name__)
 app.debug = True
 app.config['SECRET_KEY'] = 'secret!'
+app.debug = True
 socketio = SocketIO(app)
 thread = None
+toolbar = DebugToolbarExtension(app)
 
 GAMES = {}
 
@@ -29,7 +32,7 @@ def background_thread():
 
 
 @socketio.on('newgame', namespace='/api')
-def start(message):
+def newgame(message):
     message['data'] = "Game started"
     game = Game(players=['player1', 'player2'])
     GAMES[game.id] = game

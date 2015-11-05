@@ -1,5 +1,7 @@
 import numpy as np
 
+import logging
+logger = logging.getLogger(__name__)
 
 class Point(np.ndarray):
     """
@@ -12,12 +14,15 @@ class Point(np.ndarray):
     See ``test()`` for more usage.
     """
 
-    def __new__(cls, input_array=(0, 0)):
+    def __new__(cls, coordinates=None, **kwargs):
         """
         :param cls:
         :param input_array: Defaults to 2d origin
         """
-        obj = np.asarray(input_array).view(cls)
+        if not coordinates:
+            coordinates = (0, 0)
+            logger.info("No coordinates given for point. Defaulting to 2d origin (0,0)")
+        obj = np.asarray(coordinates).view(cls)
         return obj
 
     @property
@@ -53,7 +58,8 @@ class Point(np.ndarray):
 
     @property
     def serialized(self):
-        return {'location': [pos.item() for pos in np.nditer(self)]}
+        s = {'coordinates': tuple(pos.item() for pos in np.nditer(self))}
+        return s
 
     def dist(self, other):
         """

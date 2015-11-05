@@ -2,9 +2,10 @@ from star import Star
 
 
 class Board(object):
-    def __init__(self, bounds):
+    def __init__(self, bounds, star_count=10):
         self.size = bounds
         self.stars = {}
+        self._generate(star_count, bounds)
 
     def _generate(self, star_count, bounds=(10, 10)):
         """
@@ -16,6 +17,7 @@ class Board(object):
         self.size = bounds
 
         # Initialize the stars locations
+        # Could make star_num a uuid
         for star_num in xrange(star_count):
             self.stars[star_num] = Star(bounds=bounds)
 

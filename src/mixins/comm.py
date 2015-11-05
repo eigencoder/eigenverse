@@ -1,6 +1,6 @@
 import json
 
-
+# MOVE THIS TO A BASE CLASS
 class CommMixin(object):
 
     @property
